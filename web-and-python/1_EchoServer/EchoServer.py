@@ -1,12 +1,4 @@
-# Instructions:
-#
-# The starter code for this exercise is the code from the hello server.
-# Your assignment is to change this code into the echo server:
-#
-#   1. Change the name of the handler from EchoHandler to EchoHandler.
-#   2. Change the response body from "Hello, HTTP!" to the query path.
-#
-# When you're done, run it in your terminal.  Try it out from your browser,
+# Run it in your terminal.  Try it out from your browser,
 # then run the "test.py" script to check your work.
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
