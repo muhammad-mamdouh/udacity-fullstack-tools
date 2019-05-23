@@ -8,4 +8,5 @@ the URL and the short name.
 
 ![Bookmark Server](https://user-images.githubusercontent.com/13325802/58197198-0b85c700-7ccc-11e9-9e9a-747801739d1c.png)
 
-    
+This simple application is live at [Heroku.com](https://www.heroku.com/) 
+at [uri-shorted](https://uri-shorted.herokuapp.com)
