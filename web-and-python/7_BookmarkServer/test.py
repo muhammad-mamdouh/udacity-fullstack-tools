@@ -6,7 +6,9 @@
 # and responding accordingly, and answer a GET request to /name depending
 # on whether the name was previously stored or not.
 
-import requests, socket
+import requests
+import socket
+
 
 def test_connect():
     '''Try connecting to the server.'''
@@ -18,6 +20,7 @@ def test_connect():
         return None
     except socket.error:
         return "Server didn't answer on localhost port 8000.  Is it running?"
+
 
 def test_URIChecker_bad():
     '''The URIChecker code should return False for a bad URI.'''
@@ -34,6 +37,7 @@ def test_URIChecker_bad():
     else:
         print("URIChecker correctly tested a bad URI.")
         return None
+
 
 def test_GET_root():
     '''The server should accept a GET and return the form.'''
@@ -60,6 +64,7 @@ def test_GET_root():
         print("GET request succeeded!")
         return None
 
+
 def test_URIChecker_good():
     '''The URIChecker code should return True for a good URI.'''
     print("\nTesting URIChecker function for a good URI.")
@@ -75,6 +80,7 @@ def test_URIChecker_good():
     else:
         print("URIChecker correctly tested a good URI.")
         return None
+
 
 def test_POST_nodata():
     '''The server should accept a POST and return 400 error on empty form.'''
@@ -150,6 +156,7 @@ def test_POST_good():
         print("POST request with good URI correctly got a 303 to /.")
         return None
 
+
 def test_GET_path():
     '''The server should redirect on a GET to a recorded URI.'''
     print("\nTesting a recorded URI redirection process.")
@@ -179,9 +186,13 @@ def test_GET_path():
         print("GET request to {} returned 303 to {} successfully"
               .format(uri, orig))
 
+
 if __name__ == "__main__":
-    tests = [test_connect, test_GET_root, test_URIChecker_bad, test_URIChecker_good,
-             test_POST_nodata, test_POST_bad, test_POST_good, test_GET_path]
+    tests = [
+        test_connect, test_GET_root, test_URIChecker_bad,
+        test_URIChecker_good, test_POST_nodata, test_POST_bad,
+        test_POST_good, test_GET_path
+     ]
     for test in tests:
         error = test()
         if error is not None:

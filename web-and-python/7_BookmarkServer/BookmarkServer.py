@@ -26,6 +26,7 @@ form = '''<!DOCTYPE html>
 </pre>
 '''
 
+
 def URIChecker(uri, timeout=5):
     '''Check whether this URI is reachable, i.e. does it return a 200 OK?
 
@@ -42,6 +43,7 @@ def URIChecker(uri, timeout=5):
         # If the GET request raised an exception, it's not OK.
         return False
 
+
 # Concurrency, Make it possible to handle more requests.
 class ThreadHTTPServer(ThreadingMixIn, HTTPServer):
     '''This is an HTTPServer that supports thread-based concurrency.'''
@@ -51,7 +53,7 @@ class Shortener(BaseHTTPRequestHandler):
     def do_GET(self):
         # A GET request will either be for / (the root path) or for /some-name.
         # Strip off the / and we have either empty string or a name.
-        name = unquote(self.path[1:]) # Slice string to ommit /
+        name = unquote(self.path[1:])  # Slice string to ommit /
 
         if name:
             if name in url_list:
@@ -72,7 +74,8 @@ class Shortener(BaseHTTPRequestHandler):
             self.end_headers()
 
             # List the known associations in the form.
-            known = "\n".join([key+" : "+url_list[key] for key in url_list.keys()])
+            known = "\n"\
+                .join([key+" : "+url_list[key] for key in url_list.keys()])
             self.wfile.write(form.format(known).encode())
 
     def do_POST(self):
@@ -105,10 +108,12 @@ class Shortener(BaseHTTPRequestHandler):
             self.send_response(404)
             self.send_header('Content-type', 'text/plain; charset=utf-8')
             self.end_headers()
-            self.wfile.write("Couldn't fetch URI '{}'. Sorry!".format(long_uri).encode())
+            self.wfile.write(
+                "Couldn't fetch URI '{}'. Sorry!".format(long_uri).encode())
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8000))
-    server_address = ('', port) # Use PORT if it's there
+    server_address = ('', port)  # Use PORT if it's there
     httpd = ThreadHTTPServer(server_address, Shortener)
     httpd.serve_forever()
