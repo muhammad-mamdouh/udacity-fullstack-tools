@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block topcards %}
+<div class="card">
+    <div class="btn card-header">
+        <a href="{{ url_for('new_restaurant') }}">Open New Restaurant</a>
+    </div>
+</div>
+{% endblock topcards %}
+{% block content %}
+{% for restaurant in restaurants %}
+<div id="main" class="card-body">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{{ url_for('show_restaurant_menus', restaurant_id=restaurant.id) }}">
+                {{ restaurant.name.capitalize() }}
+            </a>
+        </li>
+    </ul>
+</div>
+{% endfor %}
+{% endblock content %}

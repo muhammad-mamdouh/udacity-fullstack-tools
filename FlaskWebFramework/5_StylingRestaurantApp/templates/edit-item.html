@@ -1,0 +1,23 @@
+{% extends 'item-layout.html' %}
+{% block action_url %}
+  {{ url_for('edit_menu_item', restaurant_id = item.restaurant.id, menu_id=item.id) }}
+{% endblock action_url %}
+{% block name_place%}{{ item.name }}{% endblock name_place %}
+{% block price_place%}{{ item.price }}{% endblock price_place %}
+{% block description_place%}{{ item.description }}{% endblock description_place %}
+
+{% if item.course == 'Appetizier' %}
+    {% block course_Appetizer %}checked{% endblock course_Appetizer %}
+{% endif %}
+
+{% if item.course == 'Entree' %}
+    {% block course_Entree %}checked{% endblock course_Entree %}
+{% endif %}
+
+{% if item.course == 'Dessert' %}
+    {% block course_Dessert %}checked{% endblock course_Dessert %}
+{% endif %}
+
+{% if item.course == 'Beverage' %}
+    {% block course_Beverage %}checked{% endblock course_Beverage %}
+{% endif %}

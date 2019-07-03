@@ -1,0 +1,8 @@
+{% extends 'item-layout.html' %}
+{% block action_url %}
+  {{ url_for('new_menu_item', restaurant_id = restaurant_id) }}
+{% endblock action_url %}
+{% block name_place%}Item Name{% endblock name_place %}
+{% block price_place%}Item Price{% endblock price_place %}
+{% block description_place%}Description{% endblock description_place %}
+{% block course_Appetizer %}checked{% endblock course_Appetizer %}

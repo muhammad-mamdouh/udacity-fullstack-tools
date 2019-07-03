@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block topcards %}
+<div class="card mb-2">
+    <div class="btn card-header">
+        <a href="{{ url_for('edit_restaurant', restaurant_id = restaurant.id) }}">Edit this restaurant</a>
+    </div>
+</div>
+<div class="card mb-2">
+    <div class="btn card-header">
+        <a href="{{ url_for('delete_restaurant', restaurant_id = restaurant.id) }}">Delete this restaurant</a>
+    </div>
+</div>
+<div class="card mb-2">
+    <div class="btn card-header">
+        <a href="{{ url_for('new_menu_item', restaurant_id = restaurant.id) }}">Create new item</a>
+    </div>
+</div>
+<div class="card">
+    <div class="btn card-header">
+        <a href="{{ url_for('restaurant_menu_JSON', restaurant_id = restaurant.id) }}">Show items in JSON format</a>
+    </div>
+</div>
+{% endblock topcards %}
+{% block content %}
+{% for item in menu_items %}
+<div id="main" class="card-body">
+    <ul class="list-group">
+        <li class="list-group-item active name">{{ item.name }}</li>
+        <li class="list-group-item price">{{ item.price }}</li>
+        <li class="list-group-item description">{{ item.description }}</li>
+        <li class="list-group-item btn">
+            <a href="{{ url_for('edit_menu_item', restaurant_id = item.restaurant.id, menu_id=item.id) }}">Edit</a>
+        </li>
+        <li class="list-group-item btn">
+            <a href="{{ url_for('delete_menu_item', restaurant_id = item.restaurant.id, menu_id=item.id) }}">Delete</a>
+        </li>
+    </ul>
+</div>
+{% endfor %}
+<div class="card m-4">
+    <div class="btn card-header">
+        <a href="{{ url_for('show_restaurants') }}">Go Back</a>
+    </div>
+</div>
+{% endblock content %}

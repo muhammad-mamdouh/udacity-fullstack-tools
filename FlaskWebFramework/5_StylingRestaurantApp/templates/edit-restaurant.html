@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>New Restaurant</title>
+    </head>
+    <body>
+        <header id="main-header" class="jumbotron">
+            <h1 id="header-title" class="d-flex justify-content-center">Edit Restaurant</h1>
+        </header>
+        <div class="container">
+            <div id="main" class="card card-body">
+                <h2 class="title">Restaurant Name:</h2>
+                <form class="form-row"  action="{{ url_for('edit_restaurant', restaurant_id=restaurant.id) }}"
+                        method="post">
+                    <input type="text" class="form-control col-md-6 mr-2" name="name"
+                        placeholder="{{ restaurant.name }}">
+                    <input type="submit" class="btn btn-dark mr-2" value="Submit">
+                    <a  class="btn btn-dark" href="{{ url_for('show_restaurant_menus', restaurant_id=restaurant.id) }}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
