@@ -13,8 +13,12 @@ app.register_blueprint(google_drive.app)
 @app.route('/')
 def index():
     if google_auth.is_logged_in():
-        user_info = google_auth.get_user_info()
-        return render_template('list.html', user_info=user_info)
+        drive_fields = "files(id,name,mimeType,createdTime,modifiedTime,shared,webContentLink)"
+        items = google_drive.build_drive_api_v3().list(
+            pageSize=20, orderBy="folder", q='trashed=false',
+            fields=drive_fields
+        ).execute()
+        return render_template('list.html', files=items['files'], user_info=google_auth.get_user_info())
     else:
         return render_template('login.html')
 

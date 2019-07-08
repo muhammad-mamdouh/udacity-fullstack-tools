@@ -1,6 +1,6 @@
 import io
 import tempfile
-from flask import Blueprint, request, redirect
+from flask import Blueprint, request, redirect, send_file
 from apiclient.http import MediaIoBaseDownload, MediaIoBaseUpload
 from googleapiclient.discovery import build
 from google_auth import build_credentials, get_user_info
@@ -53,3 +53,24 @@ def upload_file():
     save_image(filename, mime_type, fp)
 
     return redirect('/')
+
+
+@app.route('/gdrive/view/<file_id>', methods=['GET'])
+def view_file(file_id):
+    drive_api = build_drive_api_v3()
+    metadata = drive_api.get(fields="name,mimeType", fileId=file_id).execute()
+
+    request = drive_api.get_media(fileId=file_id)
+    fh = io.BytesIO()
+    downloader = MediaIoBaseDownload(fh, request)
+
+    done = False
+    while done is False:
+        status, done = downloader.next_chunk()
+    fh.seek(0)
+
+    return send_file(
+                     fh,
+                     attachment_filename=metadata['name'],
+                     mimetype=metadata['mimeType']
+               )
