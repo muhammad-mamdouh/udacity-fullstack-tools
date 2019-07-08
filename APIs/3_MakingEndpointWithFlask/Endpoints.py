@@ -13,12 +13,12 @@ app = Flask(__name__)
 
 
 @app.route("/")
-@app.route("/puppies/", methods=['GET', 'POST'])
+@app.route("/puppies", methods=['GET', 'POST'])
 def puppiesFunction():
     if request.method == 'GET':
         return get_all_puppies()
     elif request.method == 'POST':
-        return make_new_puppy()
+        return make_new_puppy(request.args.get('name'), request.args.get('description'))
 
 
 @app.route("/puppies/<int:id>", methods=['GET', 'PUT', 'DELETE'])
@@ -26,7 +26,7 @@ def puppiesFunctionId(id):
     if request.method == 'GET':
         return get_puppy(id)
     elif request.method == 'PUT':
-        return update_puppy(id)
+        return update_puppy(id, request.args.get('name'), request.args.get('description'))
     elif request.method == 'DELETE':
         return delete_puppy(id)
 
