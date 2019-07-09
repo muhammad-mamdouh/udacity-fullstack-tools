@@ -2,8 +2,21 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+from flask_login import UserMixin
 
 Base = declarative_base()
+
+
+class User(Base, UserMixin):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(120), nullable=False)
+    email = Column(String(120), nullable=False)
+    picture = Column(String(250))
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.picture}')"
 
 
 class Restaurant(Base):
@@ -11,6 +24,8 @@ class Restaurant(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -18,6 +33,7 @@ class Restaurant(Base):
         return {
             'name': self.name,
             'id': self.id,
+            'user_id': self.user_id
         }
 
 
@@ -31,6 +47,8 @@ class MenuItem(Base):
     course = Column(String(250))
     restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
     restaurant = relationship(Restaurant)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -44,5 +62,5 @@ class MenuItem(Base):
         }
 
 
-engine = create_engine('sqlite:///restaurantmenu.db')
+engine = create_engine('sqlite:///restaurantmenuwithusers.db')
 Base.metadata.create_all(engine)
