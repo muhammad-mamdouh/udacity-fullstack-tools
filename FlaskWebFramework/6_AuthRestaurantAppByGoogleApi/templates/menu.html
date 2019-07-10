@@ -31,6 +31,7 @@
 </div>
 	<div class="row padding-top padding-bottom">
 		<div class="col-md-1"></div>
+		{% if current_user.is_authenticated and current_user.id == creator.id %}
 		<div class="col-md-11 padding-none">
 			<a href="{{url_for('editRestaurant', restaurant_id = restaurant.id )}}">
 				<button class="btn btn-default" id="new-menu-item">
@@ -48,6 +49,7 @@
 				</button>
 			</a>
 		</div>
+		{% endif %}
 		<div class="col-md-7"></div>
 	</div>
 	

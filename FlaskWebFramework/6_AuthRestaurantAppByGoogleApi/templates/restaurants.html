@@ -41,15 +41,17 @@
 		</div>
 		<div class="col-md-1"></div>
 	</div>
-	{% for restaurant in restaurants %}
-		<a href = "{{url_for('showMenu', restaurant_id = restaurant.id)}}">
-			<div class="row">
-				<div class="col-md-1"></div>
-					<div class="col-md-10 restaurant-list">
-						<h3>{{restaurant.name}}</h3>
-					</div>
-				<div class="col-md-1"></div>
-			</div>
-		</a>
-	{% endfor %}
+	{% if current_user.is_authenticated and current_user.id == creator.id %}
+		{% for restaurant in restaurants %}
+			<a href = "{{url_for('showMenu', restaurant_id = restaurant.id)}}">
+				<div class="row">
+					<div class="col-md-1"></div>
+						<div class="col-md-10 restaurant-list">
+							<h3>{{restaurant.name}}</h3>
+						</div>
+					<div class="col-md-1"></div>
+				</div>
+			</a>
+		{% endfor %}
+	{% endif %}
 {% endblock %}

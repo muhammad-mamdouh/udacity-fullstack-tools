@@ -4,7 +4,13 @@
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>Show All Restaurants
 		</a>
 	</div>
+	{% if current_user.is_authenticated %}
 	<div class="col-md-6 text-right">
-		<a class="btn btn-social-icon-sm" href="#"><span class="fa fa-google"></span></a>
+		<a class="btn" href="{{ url_for('google_auth.logout') }}">Logout</a>
 	</div>
+	{% else %}
+	<div class="col-md-6 text-right">
+		<a class="btn btn-social-icon-sm" href="{{ url_for('google_auth.login') }}"><span class="fa fa-google"></span></a>
+	</div>
+	{% endif %}
 </div>
