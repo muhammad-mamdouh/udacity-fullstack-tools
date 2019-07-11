@@ -75,5 +75,47 @@ except Exception as err:
     print(err.args)
     sys.exit()
 else:
-    print("Test 4 PASS: Logged in User can view /bagels")
-    print("ALL TESTS PASSED!")
+    print("Test 4 PASS: Logged in User can view /api/bagels")
+
+
+# TEST 5 OBTAIN A TOKEN
+try:
+    h = Http()
+    h.add_credentials('douha','password')
+    url = address + '/api/token'
+    resp, content = h.request(url, 'GET', headers = {"Content-Type" : "application/json"})
+    if resp['status'] != '200':
+        raise Exception(f"Received an unsuccessful status code of {resp['status']}")
+
+    new_token = json.loads(content)
+    if not new_token['token']:
+        raise Exception('No Token Received!')
+    token = new_token['token']
+    print("received token: {token}")
+except Exception as err:
+    print("Test 5 FAILED: Could not exchange user credentials for a token")
+    print(err.args)
+    sys.exit()
+else:
+    print("Test 5 PASS: Successfully obtained token! ")
+
+
+# TEST 6 TRY TO ADD NEW BAGELS TO THE DATABASE
+try:
+    h = Http()
+    h.add_credentials(token,'blank')
+
+    url = address + '/api/bagels'
+    data = dict(username="douha", password="password", name="plain",
+                picture="http://bonacbagel.weebly.com/uploads/4/0/5/4/40548977/s318635836612132814_p1_i1_w240.jpeg",
+                description="Old-Fashioned Plain Bagel", price="$1.99")
+    resp, content = h.request(url, 'POST', body=json.dumps(data), headers={"Content-Type": "application/json"})
+    if resp['status'] != '200':
+        raise Exception(f"Received an unsuccessful status code of {resp['status']}")
+except Exception as err:
+    print("Test 6 FAILED: Could not add new bagels")
+    print(err.args)
+    sys.exit()
+else:
+    print("Test 6 PASS: Successfully made new bagels")
+    print("All Tests have been succeeded!")
