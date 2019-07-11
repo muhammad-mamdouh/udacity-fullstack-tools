@@ -15,17 +15,29 @@ auth = HTTPBasicAuth()
 
 
 @auth.verify_password
-def verify_password(username, password):
-    user = session.query(User).filter_by(username=username).first()
-    if not user:
-        print('User not found!')
-        return False
-    elif not user.verify_password(password):
-        print('Unable to verify password')
-        return False
+def verify_password(username_or_token, password):
+    # Firstly, try to see if it's a token
+    user_id = User.verify_auth_token(username_or_token)
+    if user_id:
+        user = session.query(User).filter_by(id=user_id).one()
     else:
-        g.user = user
-        return True
+        user = session.query(User).filter_by(username=username_or_token).first()
+        if not user:
+            print('User not found!')
+            return False
+        elif not user.verify_password(password):
+            print('Unable to verify password')
+            return False
+    g.user = user
+    return True
+
+
+@app.route('/api/token')
+@auth.login_required
+def get_auth_token():
+    '''This endpoint the client can use to request a token'''
+    token = g.user.generate_auth_token()
+    return jsonify({'token': token.decode('ascii')})
 
 
 @app.route('/api/users', methods=['POST'])
